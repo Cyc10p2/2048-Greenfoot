@@ -93,12 +93,12 @@ public class MyWorld extends World
 
             if(key.equals("a"))
             {
-
+                left();
             }
 
             else if(key.equals("d"))
             {
-
+                right();
             }
 
             else if(key.equals("w"))
@@ -108,7 +108,7 @@ public class MyWorld extends World
 
             else if(key.equals("s"))
             {
-
+                down();
             }
 
             printArray(); 
@@ -137,7 +137,7 @@ public class MyWorld extends World
                             removeObjects(getObjectsAt(xCo,yCo+134,Box.class));
                             if(Temp[i][k-1]==512)
 
-                            k--;
+                                k--;
                         }
 
                         else if(Temp[k][j]==Temp[k-1][j])
@@ -152,13 +152,144 @@ public class MyWorld extends World
                             removeObjects(getObjectsAt(xCo,yCo+134,Box.class));
 
                             k--;
-
                         }
                         else
                             k--;
                     }
                 }
 
+            }
+        }
+    }
+
+    public void down() {
+        for(int i=2;i>=0;i--)
+        {
+            for(int j=0;j<4;j++)
+            {
+                if(Temp[i][j]!=0)
+                {   int k=i; 
+                    while(k<3)
+                    { 
+                        int xCo=(j)*134+77;
+                        int yCo=(k+1)*139+77;
+                        if(Temp[k+1][j]==0)
+                        {   Temp[k+1][j]=Temp[k][j];
+                            B[k+1][j].spawnBox(Temp[k+1][j]);
+                            addObject(B[k+1][j],xCo,yCo);
+
+                            Temp[k][j]=0;
+                            removeObjects(getObjectsAt(xCo,yCo-134,Box.class));
+                            if(Temp[k+1][j]==512)
+
+                                k++;
+                        }
+
+                        else if(Temp[k][j]==Temp[k+1][j])
+                        {
+                            Temp[k+1][j]*=2;
+                            count.add(Temp[k+1][j]);
+                            B[k+1][j].spawnBox(Temp[k+1][j]);
+                            addObject(B[k+1][j],xCo,yCo);
+
+                            Temp[k][j]=0;
+
+                            removeObjects(getObjectsAt(xCo,yCo-134,Box.class));
+
+                            k++;
+                        }  
+                        else 
+                            k++;
+                    }
+                }
+            }
+        }
+    }
+
+    public void right(){
+        for(int i=0;i<4;i++)
+        {
+            for(int j=2 ;j>=0;j--)
+            {
+                if(Temp[i][j]!=0)
+                {   int k=j; 
+                    while(k<3)
+                    { 
+                        int xCo=(k+1)*139+77;
+                        int yCo=(i)*134+77;
+                        if(Temp[i][k+1]==0)
+                        {   Temp[i][k+1]=Temp[i][k];
+                            B[i][k+1].spawnBox(Temp[i][k+1]);
+                            addObject(B[i][k+1],xCo,yCo);
+
+                            Temp[i][k]=0;
+                            removeObjects(getObjectsAt(xCo-134,yCo,Box.class));
+                            if(Temp[i][k+1]==512)
+                                
+                                k++;
+                        }
+
+                        else if(Temp[i][k]==Temp[i][k+1])
+                        {
+                            Temp[i][k+1]*=2;
+                            B[i][k+1].spawnBox(Temp[i][k+1]);
+                            addObject(B[i][k+1],xCo,yCo);
+                            count.add(Temp[i][k+1]);
+
+                            Temp[i][k]=0;
+
+                            removeObjects(getObjectsAt(xCo-134,yCo,Box.class));
+
+                            k++;
+                        }                        
+                        else
+                            k++;
+                    }
+                }
+            }
+        }   
+    }
+    
+    public void left (){
+        for(int i=0;i<4;i++)
+        {
+            for(int j=1;j<=3;j++)
+            {
+                if(Temp[i][j]!=0)
+                { int k=j; 
+                    while(k>0)
+                    {
+                        int xCo=(k-1)*139+77;
+                        int yCo=(i)*134+77;
+                        if(Temp[i][k-1]==0)
+                        {   Temp[i][k-1]=Temp[i][k];
+                            B[i][k-1].spawnBox(Temp[i][k-1]);
+                            addObject(B[i][k-1],xCo,yCo);
+                            
+                            Temp[i][k]=0;
+                            removeObjects(getObjectsAt(xCo+134,yCo,Box.class));
+                            if(Temp[i][k-1]==512)
+
+                            k--;
+                        }
+
+                        else if(Temp[i][k]==Temp[i][k-1])
+                        {
+                            Temp[i][k-1]*=2;
+                            count.add(Temp[i][k-1]);
+                            B[i][k-1].spawnBox(Temp[i][k-1]);
+                            addObject(B[i][k-1],xCo,yCo);
+
+                            Temp[i][k]=0;
+
+                            removeObjects(getObjectsAt(xCo+134,yCo,Box.class));
+
+                            k--;
+                        }
+                        else
+                            k--;
+                    }
+                }
             }
         }
     }
